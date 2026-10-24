@@ -1,8 +1,13 @@
+#Список покупок
 items = ""
+#Бесконечный цикл, выход по команде 'exit'
 while True:
+    print("Команды: add-добавить, remove-удалить, list-показать список, clear-отчистить список, exit-выход")
     command = input("Введите команду: ").strip()
+    #Выход из программы
     if command == "exit":
         break
+    #Добавление товара
     elif command.startswith("add "):
         product = command[4:].strip()
         if product == "":
@@ -15,6 +20,7 @@ while True:
             print(f"Товар {product} добавлен.")
         else:
             print("Такой товар уже есть.")
+    #Удаление товара
     elif command.startswith("remove "):
         product = command[7:].strip()
         if product not in items.split(", "):
@@ -28,8 +34,10 @@ while True:
         else:
             items = items.replace(", " + product, "", 1)
             print(f"Товар {product} удален.")
+    #Показывает текущий список
     elif command == "list":
         print(items)
+    #Отчищает список
     elif command == "clear":
         items = ""
         print("Список очищен.")
