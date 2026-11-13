@@ -1,13 +1,13 @@
 import random
+TIPS = [
+'Проверяйте сроки годности перед покупкой',
+'Берите с собой список покупок',
+'Покупайте овощи и фрукты по сезону'
+]
+random.seed(42)
 
 def random_tip():
-    number = random.randint(1,3)
-    if number == 1:
-        return 'Проверяйте сроки годности перед покупкой'
-    elif number == 2:
-        return 'Берите с собой список покупок'
-    else:
-        return 'Покупайте овощи и фрукты по сезону'
+    return random.choice(TIPS)
 
 def show_help():
     return '''
@@ -18,6 +18,12 @@ list - показать список
 clear - отчистить список
 tip - случайный совет
 help - показать доступные команды
+buy - купить товар
+bought - список купленных товаров
+price <товар> <цена> - ввести цену
+total - общая стоимость
+expensive - товары дороже 100
+upper - список товаром большими буквами
 exit - выход
 '''
 
@@ -28,29 +34,24 @@ def list_items(items):
         return 'Список пуст'
 
 def add_item(items, name):
-    if name == " ":
-        print("Укажите название товара.")
-    elif name not in items.split(", "):
-        if items:
-            items += ", " + name
-            print(f"Товар {name} добавлен.")
-        else:
-            items = name
-            print(f"Товар {name} добавлен.")
-    else:
-        print("Такой товар уже есть.")
+    items.append(name)
+    print(f'Товар {name} добавлен.')
     return items
 
-def remove_item(items,name):
-    if name not in items.split(", "):
-        print("Такого товара нет в списке.")
-    elif items == name:
-        items = ""
-        print(f"Товар {name} удален.")
-    elif items.startswith(name + ", "):
-        items = items.replace(name + ", ", "", 1)
-        print(f"Товар {name} удален.")
-    else:
-        items = items.replace(", " + name, "", 1)
-        print(f"Товар {name} удален.")
+def remove_item(items, name):
+    items.remove(name)
+    print(f'Товар {name} удалён.')
     return items
+
+def mark_bought(bought, name):
+    bought.add(name)
+    return bought
+
+def expensive(items, prices):
+    return [i for i in items if prices.get(i, 0) > 100]
+
+def total(prices):
+    total_price = 0
+    for name, price in prices.items():
+        total_price += price
+    return total_price
